@@ -1,5 +1,6 @@
 <%= form_with url: jobs_path, method: :get, class: "space-y-3" do |form| %>
   <div>
+    <%= hidden_field_tag :status, params[:status] if params[:status].present? %>
     <label class="label">Status</label>
     <div class="flex flex-wrap gap-1 mt-1">
       <% SolidQueueDashboard::Job::STATUSES.each do |status| %>
@@ -26,6 +27,7 @@
   </div>
 
   <div>
+    <%= hidden_field_tag :class_name, params[:class_name] if params[:class_name].present? %>
     <label class="label">Job Class</label>
     <div class="flex flex-wrap gap-1 mt-1">
       <% @job_class_names.each do |class_name| %>
@@ -52,6 +54,7 @@
 
   <% if @job_queue_names.size > 1 %>
     <div>
+      <%= hidden_field_tag :queue_name, params[:queue_name] if params[:queue_name].present? %>
       <label class="label">Queue</label>
       <div class="flex flex-wrap gap-1 mt-1">
         <% @job_queue_names.each do |queue_name| %>
