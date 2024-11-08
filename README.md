@@ -58,7 +58,7 @@ For example, if using Devise:
 
 ```ruby
 Rails.application.routes.draw do
-  authenticate :current_admin do
+  authenticate :admin do
     mount SolidQueueDashboard::Engine, at: "/solid-queue"
   end
 end
