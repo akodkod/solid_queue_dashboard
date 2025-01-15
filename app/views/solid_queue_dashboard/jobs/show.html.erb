@@ -145,8 +145,8 @@
         <%= @job.error_message %>
       </h4>
 
-      <% backtrace = Rails.backtrace_cleaner.clean(@job.failed_execution.error["backtrace"]) %>
-      <% if backtrace.any? %>
+      <% backtrace = Rails.backtrace_cleaner.clean(@job.failed_execution.error["backtrace"]) if @job.failed_execution.error["backtrace"]%>
+      <% if backtrace&.any? %>
         <ul class="list-decimal marker:text-sm marker:text-muted-foreground mt-1 ml-8 space-y-1">
           <% backtrace.each do |line| %>
             <li class="font-mono"><%= line %></li>
