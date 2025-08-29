@@ -49,11 +49,15 @@
   </td>
 
   <td class="table-cell">
-    <%= tag.span job.scheduled_at, data: { date: true }, class: "font-medium" %>
-    <br />
-    <span class="text-xs text-muted-foreground">
-      <%= time_ago_in_words(job.scheduled_at, include_seconds: true) %> ago
-    </span>
+    <% if job.scheduled_at.present? %>
+      <%= tag.span job.scheduled_at, data: { date: true }, class: "font-medium" %>
+      <br />
+      <span class="text-xs text-muted-foreground">
+        <%= time_ago_in_words(job.scheduled_at, include_seconds: true) %> ago
+      </span>
+    <% else %>
+      <%= tag.span "&mdash;".html_safe %>
+    <% end %>
   </td>
 
   <td class="table-cell">
@@ -70,7 +74,7 @@
     <% elsif job.success? || job.retried? %>
       <p class="text-sm text-muted-foreground">
         <%= job.retried? ? "Failed" : "Finished" %> at <strong class="font-medium text-foreground" data-date="<%= job.finished_at.to_fs(:database) %>"><%= job.finished_at %></strong><br />
-        <span class="text-xs"><%= time_ago_in_words(job.scheduled_at, include_seconds: true) %> ago</span>
+        <span class="text-xs"><%= time_ago_in_words(job.scheduled_at || job.created_at, include_seconds: true) %> ago</span>
       </p>
     <% elsif job.failed? %>
       <div class="flex items-center justify-between">
@@ -91,7 +95,7 @@
       </div>
     <% elsif job.pending? %>
       <p class="text-sm text-muted-foreground">
-        Pending for <strong class="font-medium text-foreground"><%= time_ago_in_words(job.scheduled_at, include_seconds: true) %></strong>
+        Pending for <strong class="font-medium text-foreground"><%= time_ago_in_words(job.scheduled_at || job.created_at, include_seconds: true) %></strong>
       </p>
     <% end %>
   </td>
